@@ -225,7 +225,10 @@ async function obtenerPokemon(id) {
 function normalizarPokemon(p, speciesData, isFeatured = false, isRosterShiny = false) {
   const nombre = p.name;
   const id = p.id;
-  const idFmt = `#${String(id).padStart(3, "0")}`;
+
+  // Ocultar ID para formas alternativas (ID > 10000)
+  const isAlternative = id > 10000;
+  const idFmt = isAlternative ? '???' : `#${String(id).padStart(3, "0")}`;
 
   // Verificar si es Shiny (el destacado siempre lo es, o si fue elegido como shiny en el rooster)
   const isShiny = isFeatured || isRosterShiny;
@@ -313,6 +316,12 @@ function normalizarPokemon(p, speciesData, isFeatured = false, isRosterShiny = f
   if (p.name.includes("-mega")) {
     evolutionStage = "Megaevolución";
     stageClass = "evo-mega";
+  } else if (p.name.includes("-gmax")) {
+    evolutionStage = "Dinamax";
+    stageClass = "evo-mega"; // Reusing the fiery gradient style for Dinamax
+  } else if (p.name.includes("-alola") || p.name.includes("-galar") || p.name.includes("-paldea") || p.name.includes("-hisui")) {
+    evolutionStage = "Regional";
+    stageClass = "evo-stage2"; // Reusing Stage 2 for Regional flair
   } else if (speciesData && speciesData.evolution_chain && p.evolutionChainData) {
     // Traverse the evolution tree to find the depth of the current species
     const chain = p.evolutionChainData.chain;
@@ -343,7 +352,7 @@ function normalizarPokemon(p, speciesData, isFeatured = false, isRosterShiny = f
   }
 
   // HTML Badge for Evolution
-  const evoBadgeHtml = `<span class="evo-badge ${stageClass}">${evolutionStage}</span>`;
+  const evoBadgeHtml = evolutionStage !== "Desconocido" ? `<span class="evo-badge ${stageClass}">${evolutionStage}</span>` : `<span class="badge bg-secondary">Variante Especial</span>`;
 
   return {
     id, idFmt, nombre, img, tipos, alturaM, pesoKg, region,
@@ -400,7 +409,7 @@ function renderFeaturedCard(p) {
           <div>
             <h2 class="holo-title text-capitalize mb-2">${p.nombre}</h2>
             <div class="d-flex flex-wrap align-items-center gap-2 mb-1">
-              <span class="badge" style="background: rgba(0, 255, 255, 0.2); color: #0ff; border: 1px solid #0ff;">${p.idFmt}</span>
+              ${p.idFmt !== '???' ? `<span class="badge" style="background: rgba(0, 255, 255, 0.2); color: #0ff; border: 1px solid #0ff;">${p.idFmt}</span>` : ''}
               ${p.evoBadgeHtml}
               ${p.isShiny ? '<span class="badge" style="background: rgba(255, 215, 0, 0.2); color: #ffd700; border: 1px solid #ffd700;">✨ SHINY</span>' : ''}
               ${rarityBadgeHtml}
@@ -470,7 +479,7 @@ function renderCards(lista) {
               <h5 class="card-title text-capitalize mb-1 me-1" style="color: #222; font-size: 1.4rem;">${p.nombre}</h5>
             </div>
             <div class="mb-2 d-flex flex-wrap justify-content-center gap-1 align-items-center w-100">
-              <span class="badge bg-dark text-white opacity-75">${p.idFmt}</span>
+              ${p.idFmt !== '???' ? `<span class="badge bg-dark text-white opacity-75">${p.idFmt}</span>` : ''}
               ${p.evoBadgeHtml}
               ${p.isShiny ? '<span class="badge shiny-badge ms-1">SHINY</span>' : ''}
             </div>
