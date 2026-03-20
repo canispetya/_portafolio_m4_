@@ -18,6 +18,8 @@ export default function App() {
     loadPokedex,
     searchByName,
     clearSearch,
+    handleFilterChange,
+    filterQuery,
   } = usePokemon();
 
   const [selectedPokemon, setSelectedPokemon] = useState(null);
@@ -64,6 +66,7 @@ export default function App() {
                 </p>
                 <SearchBar
                   onSearch={searchByName}
+                  onFilter={handleFilterChange}
                   onClear={clearSearch}
                   isSearching={isSearching}
                 />

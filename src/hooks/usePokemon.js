@@ -50,6 +50,7 @@ export function usePokemon() {
   const [error, setError] = useState(null);
   const [searchResult, setSearchResult] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
+  const [filterQuery, setFilterQuery] = useState('');
   const cacheRef = useRef([]);
 
   const loadPokedex = useCallback(async () => {
@@ -57,9 +58,9 @@ export function usePokemon() {
       setLoading(true);
       setError(null);
       setSearchResult(null);
+      setFilterQuery('');
 
       const ids = generateRandomIds(NUM_POKEMON, MAX_ID);
-
       const [pokemonData, speciesData] = await Promise.all([
         Promise.all(ids.map(fetchPokemon)),
         Promise.all(ids.map(fetchSpecies)),
@@ -101,9 +102,20 @@ export function usePokemon() {
   }, []);
 
   const searchByName = useCallback(async (query) => {
-    if (!query.trim()) {
+    const trimmed = query.trim().toLowerCase();
+    if (!trimmed) {
       setSearchResult(null);
-      setIsSearching(false);
+      return;
+    }
+
+    // First, check if it's already in the local cache to avoid API call
+    const localMatch = cacheRef.current.find(p => 
+      p.nombre.toLowerCase() === trimmed || p.idFmt === `#${trimmed.padStart(3, '0')}` || p.id.toString() === trimmed
+    );
+    
+    if (localMatch) {
+      setSearchResult(localMatch);
+      setError(null);
       return;
     }
 
@@ -111,7 +123,7 @@ export function usePokemon() {
       setIsSearching(true);
       setError(null);
 
-      const pData = await searchPokemon(query);
+      const pData = await searchPokemon(trimmed);
       const pSpecies = await fetchSpecies(pData.id);
 
       let pEvoData = null;
@@ -126,8 +138,8 @@ export function usePokemon() {
       if (!cacheRef.current.find(p => p.id === result.id)) {
         cacheRef.current.push(result);
       }
-    } catch {
-      setError('No se encontró el Pokémon. Verifica el nombre.');
+    } catch (err) {
+      setError('No se encontró el Pokémon exacto. Prueba con el nombre completo o su ID.');
       setSearchResult(null);
     } finally {
       setIsSearching(false);
@@ -136,27 +148,40 @@ export function usePokemon() {
 
   const clearSearch = useCallback(() => {
     setSearchResult(null);
+    setFilterQuery('');
     setError(null);
   }, []);
 
-  const filterLocal = useCallback((query) => {
-    if (!query.trim()) return null;
-    return cacheRef.current.filter(p =>
-      p.nombre.toLowerCase().includes(query.toLowerCase())
-    );
-  }, []);
+  const handleFilterChange = useCallback((query) => {
+    setFilterQuery(query);
+    setError(null);
+    if (searchResult) setSearchResult(null);
+  }, [searchResult]);
+
+  const filteredPokemon = pokemon.filter(p => 
+    p.nombre.toLowerCase().includes(filterQuery.toLowerCase()) ||
+    p.idFmt.includes(filterQuery) ||
+    p.types.some(t => t.toLowerCase().includes(filterQuery.toLowerCase()))
+  );
+
+  const filteredFeatured = featured && (
+    featured.nombre.toLowerCase().includes(filterQuery.toLowerCase()) ||
+    featured.idFmt.includes(filterQuery) ||
+    featured.types.some(t => t.toLowerCase().includes(filterQuery.toLowerCase()))
+  ) ? featured : null;
 
   return {
-    pokemon,
-    featured,
+    pokemon: filteredPokemon,
+    featured: filteredFeatured,
     loading,
     error,
     searchResult,
     isSearching,
+    filterQuery,
     loadPokedex,
     searchByName,
     clearSearch,
-    filterLocal,
+    handleFilterChange,
     cache: cacheRef,
   };
 }

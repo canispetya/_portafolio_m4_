@@ -1,20 +1,19 @@
 import { useState, useRef, useCallback } from 'react';
 
-export default function SearchBar({ onSearch, onClear, isSearching }) {
+export default function SearchBar({ onSearch, onFilter, onClear, isSearching }) {
   const [query, setQuery] = useState('');
   const debounceRef = useRef(null);
 
   const handleChange = useCallback((e) => {
     const val = e.target.value;
     setQuery(val);
-
-    if (debounceRef.current) clearTimeout(debounceRef.current);
+    onFilter(val);
 
     if (!val.trim()) {
       onClear();
       return;
     }
-  }, [onClear]);
+  }, [onFilter, onClear]);
 
   const handleKeyDown = useCallback((e) => {
     if (e.key === 'Enter' && query.trim()) {
