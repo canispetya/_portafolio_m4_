@@ -1,6 +1,17 @@
 const BASE_POKEMON = 'https://pokeapi.co/api/v2/pokemon/';
 const BASE_SPECIES = 'https://pokeapi.co/api/v2/pokemon-species/';
 
+export async function fetchFullList() {
+  const res = await fetch(`${BASE_POKEMON}?limit=2000`);
+  if (!res.ok) throw new Error('Could not fetch Pokémon list');
+  const data = await res.json();
+  return data.results.map((p, index) => ({
+    name: p.name,
+    id: index + 1, // Basic ID mapping, though some IDs might differ for special forms
+    url: p.url,
+  }));
+}
+
 export async function fetchPokemon(id) {
   const res = await fetch(`${BASE_POKEMON}${id}`);
   if (!res.ok) throw new Error(`Pokemon ${id} not found`);

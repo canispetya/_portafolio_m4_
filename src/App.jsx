@@ -61,9 +61,6 @@ export default function App() {
               
               {/* Search area */}
               <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6">
-                <p className="text-gray-500 text-sm font-['Inter']">
-                  Pokédex interactiva • React + Vite + PokeAPI
-                </p>
                 <SearchBar
                   onSearch={searchByName}
                   onFilter={handleFilterChange}

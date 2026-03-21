@@ -5,6 +5,7 @@ import {
   fetchEvolutionChain,
   normalizePokemon,
   searchPokemon,
+  fetchFullList,
 } from '../api/pokeapi';
 import {
   legendariosFijos,
@@ -51,7 +52,17 @@ export function usePokemon() {
   const [searchResult, setSearchResult] = useState(null);
   const [isSearching, setIsSearching] = useState(false);
   const [filterQuery, setFilterQuery] = useState('');
+  const [fullList, setFullList] = useState([]); // Store all names/IDs
   const cacheRef = useRef([]);
+
+  const loadFullList = useCallback(async () => {
+    try {
+      const list = await fetchFullList();
+      setFullList(list);
+    } catch (e) {
+      console.error('Failed to load full pokemon list:', e);
+    }
+  }, []);
 
   const loadPokedex = useCallback(async () => {
     try {
@@ -59,6 +70,8 @@ export function usePokemon() {
       setError(null);
       setSearchResult(null);
       setFilterQuery('');
+
+      if (fullList.length === 0) await loadFullList();
 
       const ids = generateRandomIds(NUM_POKEMON, MAX_ID);
       const [pokemonData, speciesData] = await Promise.all([
@@ -99,7 +112,7 @@ export function usePokemon() {
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [fullList.length, loadFullList]);
 
   const searchByName = useCallback(async (query) => {
     const trimmed = query.trim().toLowerCase();
@@ -108,7 +121,7 @@ export function usePokemon() {
       return;
     }
 
-    // First, check if it's already in the local cache to avoid API call
+    // First, check if it's already in the local cache
     const localMatch = cacheRef.current.find(p => 
       p.nombre.toLowerCase() === trimmed || p.idFmt === `#${trimmed.padStart(3, '0')}` || p.id.toString() === trimmed
     );
@@ -119,11 +132,21 @@ export function usePokemon() {
       return;
     }
 
+    // Second, if not in cache, find the closest name in the fullList
+    let target = trimmed;
+    if (fullList.length > 0) {
+      // Find the first one that starts with the query, or closest match
+      const suggestion = fullList.find(p => p.name.includes(trimmed)) || fullList.find(p => p.name.startsWith(trimmed.substring(0, 3)));
+      if (suggestion) {
+        target = suggestion.name;
+      }
+    }
+
     try {
       setIsSearching(true);
       setError(null);
 
-      const pData = await searchPokemon(trimmed);
+      const pData = await searchPokemon(target);
       const pSpecies = await fetchSpecies(pData.id);
 
       let pEvoData = null;
@@ -139,12 +162,12 @@ export function usePokemon() {
         cacheRef.current.push(result);
       }
     } catch (err) {
-      setError('No se encontró el Pokémon exacto. Prueba con el nombre completo o su ID.');
+      setError('No se encontró el Pokémon. Prueba con el nombre más aproximado o su ID.');
       setSearchResult(null);
     } finally {
       setIsSearching(false);
     }
-  }, []);
+  }, [fullList]);
 
   const clearSearch = useCallback(() => {
     setSearchResult(null);

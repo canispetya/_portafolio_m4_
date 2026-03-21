@@ -87,10 +87,26 @@ export default function PokemonCard({ pokemon, onClick, index = 0 }) {
             <span className="inline-block px-3 py-1 text-[0.65rem] font-bold rounded-full bg-gradient-to-r from-pink-400 via-purple-500 to-indigo-600 text-white shadow-md animate-pulse-soft">✨ MÍTICO</span>
           )}
 
-          {/* Region */}
-          <p className="text-[0.75rem] font-semibold text-gray-700">
-            📍 {pokemon.region}
-          </p>
+          {/* Region & Base Exp */}
+          <div className="flex justify-between items-center px-4 text-[0.7rem] font-bold text-gray-700">
+            <span>📍 {pokemon.region}</span>
+            <span className="bg-white/40 px-2 py-0.5 rounded-full border border-white/50">EXP: {pokemon.baseExp || '??'}</span>
+          </div>
+
+          {/* Stats Grid */}
+          <div className="grid grid-cols-2 gap-1 px-2 pt-1 pb-2">
+            {[
+              { label: 'HP', val: pokemon.statHp, color: 'bg-red-400' },
+              { label: 'ATK', val: pokemon.statAtk, color: 'bg-orange-400' },
+              { label: 'DEF', val: pokemon.statDef, color: 'bg-blue-400' },
+              { label: 'SPD', val: pokemon.statSpd, color: 'bg-emerald-400' },
+            ].map(s => (
+              <div key={s.label} className="flex items-center gap-2 bg-white/20 backdrop-blur-sm rounded-md px-2 py-1 border border-white/10 group-hover:bg-white/30 transition-colors">
+                <span className={`w-2 h-2 rounded-full ${s.color} ring-1 ring-white/20 shadow-sm`} />
+                <span className="text-[0.6rem] font-black font-mono text-gray-800 uppercase">{s.label}: {s.val}</span>
+              </div>
+            ))}
+          </div>
 
           {/* Types */}
           <div className="flex justify-center gap-2 pt-1">

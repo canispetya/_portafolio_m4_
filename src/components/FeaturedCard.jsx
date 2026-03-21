@@ -76,6 +76,25 @@ export default function FeaturedCard({ pokemon, onClick }) {
           {pokemon.description}
         </div>
 
+        {/* Stats and Info row */}
+        <div className="flex flex-wrap gap-4 mb-4">
+          <div className="flex flex-col">
+            <span className="text-[0.6rem] text-cyan-400/60 uppercase font-black tracking-tighter">Exp. Base</span>
+            <span className="text-sm font-bold text-cyan-200">{pokemon.baseExp || '??'}</span>
+          </div>
+          {[
+            { label: 'HP', val: pokemon.statHp },
+            { label: 'ATK', val: pokemon.statAtk },
+            { label: 'DEF', val: pokemon.statDef },
+            { label: 'SPD', val: pokemon.statSpd },
+          ].map(s => (
+            <div key={s.label} className="flex flex-col border-l border-cyan-500/30 pl-3">
+              <span className="text-[0.6rem] text-cyan-400/60 uppercase font-black tracking-tighter">{s.label}</span>
+              <span className="text-sm font-bold text-cyan-200">{s.val}</span>
+            </div>
+          ))}
+        </div>
+
         {/* Types */}
         <div className="flex gap-2 mb-4">
           {pokemon.types.map(t => (
