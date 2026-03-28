@@ -654,6 +654,7 @@ async function openModalById(id) {
             </div>
           </div>
 
+          ${p.moves.length > 0 ? `
           <div class="bg-black/40 rounded-2xl p-4 border border-white/5">
             <div class="flex justify-between items-center mb-4">
               <h4 class="text-xs font-black uppercase text-yellow-500 tracking-widest">Movimientos</h4>
@@ -666,7 +667,7 @@ async function openModalById(id) {
                 </div>
               `).join('')}
             </div>
-          </div>
+          </div>` : ''}
         </div>
 
         <!-- Tab: Evolución -->
