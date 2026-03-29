@@ -34,6 +34,86 @@ const typeGradients = {
   dark: 'from-gray-600 to-gray-900', fairy: 'from-pink-300 to-pink-500',
 };
 
+const MEGA_DATA = {
+  // Pokémon X / Y
+  'venusaur-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Venusaurita', itemKey: 'venusaurite' },
+  'charizard-mega-x': { debut: 'Pokémon X / Pokémon Y', method: 'Charizardita X', itemKey: 'charizardite-x' },
+  'charizard-mega-y': { debut: 'Pokémon X / Pokémon Y', method: 'Charizardita Y', itemKey: 'charizardite-y' },
+  'blastoise-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Blastoisita', itemKey: 'blastoiseite' },
+  'alakazam-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Alakazamita', itemKey: 'alakazamite' },
+  'gengar-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Gengarita', itemKey: 'gengarite' },
+  'kangaskhan-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Kangaskhanita', itemKey: 'kangaskhanite' },
+  'pinsir-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Pinsirita', itemKey: 'pinsirite' },
+  'gyarados-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Gyaradosita', itemKey: 'gyaradosite' },
+  'aerodactyl-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Aerodactylita', itemKey: 'aerodactylite' },
+  'mewtwo-mega-x': { debut: 'Pokémon X / Pokémon Y', method: 'Mewtwoita X', itemKey: 'mewtwoite-x' },
+  'mewtwo-mega-y': { debut: 'Pokémon X / Pokémon Y', method: 'Mewtwoita Y', itemKey: 'mewtwoite-y' },
+  'ampharos-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Ampharosita', itemKey: 'ampharosite' },
+  'scizor-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Scizorita', itemKey: 'scizorite' },
+  'heracross-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Heracrossita', itemKey: 'heracrossite' },
+  'houndoom-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Houndoomita', itemKey: 'houndoomite' },
+  'tyranitar-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Tyranitarita', itemKey: 'tyranitarite' },
+  'blaziken-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Blazikenita', itemKey: 'blazikenite' },
+  'gardevoir-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Gardevoirita', itemKey: 'gardevoirite' },
+  'mawile-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Mawilita', itemKey: 'mawileite' },
+  'aggron-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Aggronita', itemKey: 'aggronite' },
+  'medicham-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Medichamita', itemKey: 'medichamite' },
+  'manectric-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Manectricita', itemKey: 'manectricite' },
+  'banette-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Banettita', itemKey: 'banettite' },
+  'absol-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Absolita', itemKey: 'absolite' },
+  'latias-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Latiasita', itemKey: 'latiasite' },
+  'latios-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Latiosita', itemKey: 'latiosite' },
+  'garchomp-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Garchompita', itemKey: 'garchompite' },
+  'lucario-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Lucarita', itemKey: 'lucarionite' },
+  'abomasnow-mega': { debut: 'Pokémon X / Pokémon Y', method: 'Abomasnowita', itemKey: 'abomasnowite' },
+  // Pokémon Rubí Omega / Zafiro Alfa
+  'beedrill-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Beedrillita', itemKey: 'beedrillite' },
+  'pidgeot-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Pidgeotita', itemKey: 'pidgeotite' },
+  'slowbro-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Slowbronita', itemKey: 'slowbronite' },
+  'steelix-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Steelixita', itemKey: 'steelixite' },
+  'sceptile-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Sceptilita', itemKey: 'sceptilite' },
+  'swampert-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Swampertita', itemKey: 'swampertite' },
+  'sableye-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Sableynita', itemKey: 'sableyeite' },
+  'sharpedo-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Sharpedonita', itemKey: 'sharpedonite' },
+  'camerupt-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Cameruptita', itemKey: 'cameruptite' },
+  'altaria-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Altarianita', itemKey: 'altarianite' },
+  'glalie-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Glalita', itemKey: 'glalitite' },
+  'salamence-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Salamencita', itemKey: 'salamencite' },
+  'metagross-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Metagrossita', itemKey: 'metagrossite' },
+  'rayquaza-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'conocer el movimiento Ascenso Draco', itemKey: null },
+  'lopunny-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Lopunnita', itemKey: 'lopunnite' },
+  'gallade-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Galladita', itemKey: 'galladite' },
+  'audino-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Audinita', itemKey: 'audinite' },
+  'diancie-mega': { debut: 'Pokémon R. Omega / Z. Alfa', method: 'Diancita', itemKey: 'diancite' },
+  // Leyendas Pokémon: Z-A (Futuras)
+  'clefable': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Clefablita' },
+  'victreebel': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Victreebelita' },
+  'starmie': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Starmiita' },
+  'dragonite': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Dragonitita' },
+  'meganium': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Meganiumita' },
+  'feraligatr': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Feraligatrita' },
+  'skarmory': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Skarmoryita' },
+  'froslass': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Froslassita' },
+  'emboar': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Emboarita' },
+  'excadrill': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Excadrillita' },
+  'scolipede': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Scolipedita' },
+  'scrafty': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Scraftyita' },
+  'zoroark': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Zoroarkita' },
+  'haxorus': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Haxorusita' },
+  'druddigon': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Druddigonita' },
+  'gogoat': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Gogoatita' },
+  'pangoro': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Pangorita' },
+  'noivern': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Noivernita' },
+  'zygarde': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Zygardita' },
+  'toucannon': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Toucannonita' },
+  'vikavolt': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Vikavoltita' },
+  'mimikyu': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Mimikyuyita' },
+  'dhelmise': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Dhelmisita' },
+  'corviknight': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Corviknightita' },
+  'grapploct': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Grapploctita' },
+  'dragapult': { futureMega: 'Leyendas Pokémon: Z-A', megaMethod: 'Dragapultita' }
+};
+
 const legendariosFijos = [144, 145, 146, 150, 243, 244, 245, 249, 250, 377, 378, 379, 380, 381, 382, 383, 384, 483, 484, 487];
 const miticosFijos = [151, 251, 385, 386, 490, 492, 493, 494, 648, 649, 719, 720, 721, 801, 802, 807, 808, 809];
 const megasFijas = [10033, 10034, 10035, 10036, 10037, 10038, 10039, 10040, 10041, 10042, 10043, 10044, 10045, 10048, 10050, 10051, 10052, 10053, 10054, 10055, 10057, 10062, 10073, 10075];
@@ -47,6 +127,35 @@ let isLoading = true;
 let currentFilter = '';
 let searchResult = null;
 let fullPokemonList = [];
+
+// New State for Pagination & Filters
+let idPool = [];
+let currentPointer = 0;
+let activeRegion = 'all';
+let activeType = 'all';
+
+const REGION_RANGES = {
+  kanto: [1, 151],
+  johto: [152, 251],
+  hoenn: [252, 386],
+  sinnoh: [387, 493],
+  unova: [494, 649],
+  kalos: [650, 721],
+  alola: [722, 809],
+  galar: [810, 898],
+  paldea: [906, 1025],
+  hisui: [899, 905],
+  special: [10001, 10277]
+};
+
+/* ===== Helpers ===== */
+function generateRandomIds(count, maxId) {
+  const ids = new Set();
+  while (ids.size < count) {
+    ids.add(Math.floor(Math.random() * maxId) + 1);
+  }
+  return Array.from(ids);
+}
 
 /* ===== API Functions ===== */
 async function fetchPokemon(id) {
@@ -147,42 +256,20 @@ function formatLearnMethod(method, level) {
   return method.replace(/-/g, ' ');
 }
 
-function localizeLocation(name) {
-  if (!name) return 'Ubicación desconocida';
-  let n = name.toLowerCase();
-  const map = {
-    'route': 'Ruta',
-    'cave': 'Cueva',
-    'mountain': 'Montaña',
-    'forest': 'Bosque',
-    'island': 'Isla',
-    'city': 'Ciudad',
-    'point': 'Punta',
-    'lake': 'Lago',
-    'mount': 'Monte',
-    'tower': 'Torre',
-    'area': 'Zona',
-    'sea': 'Mar',
-    'beach': 'Playa',
-    'path': 'Camino',
-    'kanto': 'Kanto',
-    'johto': 'Johto',
-    'hoenn': 'Hoenn',
-    'sinnoh': 'Sinnoh',
-    'unova': 'Teselia',
-    'kalos': 'Kalos',
-    'alola': 'Alola',
-    'galar': 'Galar',
-    'hisui': 'Hisui',
-    'paldea': 'Paldea'
+
+function formatDebut(gen) {
+  const genMap = {
+    'generation-i': '1ª Gen (Kanto - Roja/Verde/Azul)',
+    'generation-ii': '2ª Gen (Johto - Oro/Plata/Cristal)',
+    'generation-iii': '3ª Gen (Hoenn - Rubí/Zafiro/Esmeralda)',
+    'generation-iv': '4ª Gen (Sinnoh - Diamante/Perla/Platino)',
+    'generation-v': '5ª Gen (Teselia - Blanco/Negro)',
+    'generation-vi': '6ª Gen (Kalos - X/Y)',
+    'generation-vii': '7ª Gen (Alola - Sol/Luna)',
+    'generation-viii': '8ª Gen (Galar - Espada/Escudo)',
+    'generation-ix': '9ª Gen (Paldea - Escarlata/Púrpura)'
   };
-  
-  Object.keys(map).forEach(key => {
-    const regex = new RegExp(`\\b${key}\\b`, 'gi');
-    n = n.replace(regex, map[key]);
-  });
-  
-  return n.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  return genMap[gen] || 'Desconocido';
 }
 
 function normalizePokemon(p, speciesData, isShiny = false) {
@@ -192,20 +279,25 @@ function normalizePokemon(p, speciesData, isShiny = false) {
   const idFmt = `#${id}`;
   let varieties = [];
 
-  let img = isShiny ? (p.sprites?.other?.['official-artwork']?.front_shiny || p.sprites?.front_shiny || '') : '';
-  if (!img) img = p.sprites?.other?.['official-artwork']?.front_default || p.sprites?.front_default || '';
+  const imgNormal = p.sprites?.other?.['official-artwork']?.front_default || p.sprites?.front_default || '';
+  const imgShiny = p.sprites?.other?.['official-artwork']?.front_shiny || p.sprites?.front_shiny || '';
+  let img = isShiny ? (imgShiny || imgNormal) : imgNormal;
 
   const soundUrl = p.cries?.latest || '';
   const abilities = p.abilities?.map(a => ({ name: a.ability.name, isHidden: a.is_hidden, url: a.ability.url })) || [];
-  const heldItems = p.held_items?.slice(0, 3).map(i => i.item.name.replace('-', ' ')) || [];
+  const heldItems = p.held_items?.slice(0, 3).map(i => ({ 
+    name: i.item.name.replace(/-/g, ' '),
+    img: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${i.item.name}.png`
+  })) || [];
 
-  let description = '', isLegendary = false, isMythical = false;
+  let description = '', isLegendary = false, isMythical = false, debut = 'Desconocido';
   let growthRate = 'Desconocido', eggGroups = [], baseExp = p.base_experience ? `${p.base_experience} XP` : 'Desconocido';
   let captureRate = 'Desconocido', habitat = 'Desconocido', baseHappiness = 'Desconocido';
   let color = 'Desconocido', shape = 'Desconocido', isBaby = false, genderRate = -1;
   let hatchCounter = 0, genera = 'Pokémon';
 
   if (speciesData) {
+    debut = formatDebut(speciesData.generation?.name);
     isLegendary = speciesData.is_legendary; isMythical = speciesData.is_mythical;
     captureRate = speciesData.capture_rate || 'Desconocido';
     habitat = speciesData.habitat ? speciesData.habitat.name : 'Desconocido';
@@ -236,6 +328,11 @@ function normalizePokemon(p, speciesData, isShiny = false) {
         };
       });
     }
+  }
+
+  // Final Overwrite for Megas (Precedence)
+  if (MEGA_DATA[nombre]) {
+    debut = MEGA_DATA[nombre].debut || debut;
   }
 
   const types = p.types.map(t => t.type.name);
@@ -299,7 +396,8 @@ function normalizePokemon(p, speciesData, isShiny = false) {
     isShiny, soundUrl, description, isLegendary, isMythical,
     abilities, heldItems, growthRate, eggGroups, evolutionStage, stageType,
     baseExp, captureRate, habitat, baseHappiness, color, shape, isBaby, genderRate, moves, hatchCounter, genera, evolutionFamily, varieties,
-    eggGroups, growthRate, isLegendary, isMythical, description
+    eggGroups, growthRate, isLegendary, isMythical, description, debut,
+    imgNormal, imgShiny, isShinyInitial: isShiny
   };
 }
 
@@ -461,29 +559,85 @@ async function fetchFullList() {
   } catch (e) { return []; }
 }
 
-function generateRandomIds(count, maxId) {
-  const ids = new Set();
-  const getRandom = (arr) => arr[Math.floor(Math.random() * arr.length)];
-  ids.add(getRandom(legendariosFijos));
-  ids.add(getRandom(miticosFijos));
-  ids.add(getRandom(megasFijas));
-  ids.add(getRandom(regionalesFijas));
-  ids.add(getRandom(dinamaxFijos));
+async function loadPokedex() {
+  await fetchFullList();
+  document.getElementById('error-container').innerHTML = '';
+  
+  // Reseteo visual de los filtros
+  document.getElementById('region-filter').value = 'all';
+  document.getElementById('type-filter').value = 'all';
+  document.getElementById('search-input').value = '';
+  document.getElementById('clear-search').classList.add('opacity-0', 'pointer-events-none');
+  
+  activeRegion = 'all';
+  activeType = 'all';
+  currentFilter = '';
 
-  while (ids.size < count) {
-    if (Math.random() < 0.2) ids.add(Math.floor(Math.random() * (10277 - 10001 + 1)) + 10001);
-    else ids.add(Math.floor(Math.random() * maxId) + 1);
-  }
-  return Array.from(ids).sort(() => Math.random() - 0.5);
+  // Modo Aleatorio: Mostrar 13 Pokémon al azar
+  isLoading = true;
+  updateUI();
+
+  idPool = generateRandomIds(13, 1025);
+  currentPointer = 0;
+  pokemonList = [];
+  featuredPokemon = null;
+  searchResult = null;
+
+  await loadNextBatch();
 }
 
-async function loadPokedex() {
-  try {
-    document.getElementById('error-container').innerHTML = '';
-    isLoading = true; updateUI();
-    if (fullPokemonList.length === 0) await fetchFullList();
+async function applyFilters() {
+  document.getElementById('error-container').innerHTML = '';
+  isLoading = true;
+  updateUI();
+  
+  let pool = [];
+  
+  // 1. Initial ID Pool from Region
+  if (activeRegion === 'all') {
+    pool = Array.from({length: 1025}, (_, i) => i + 1);
+    // Include specials if region is all
+    pool = [...pool, ...Array.from({length: 277}, (_, i) => i + 10001)];
+  } else if (activeRegion === 'hisui') {
+    // Hisui is tricky in PokeAPI, using a manual list or range
+    pool = [899, 900, 901, 902, 903, 904, 905];
+  } else if (REGION_RANGES[activeRegion]) {
+    const [start, end] = REGION_RANGES[activeRegion];
+    pool = Array.from({length: end - start + 1}, (_, i) => i + start);
+  }
 
-    const ids = generateRandomIds(13, 1025);
+  // 2. Refine by Type if active
+  if (activeType !== 'all') {
+    try {
+      const res = await fetch(`https://pokeapi.co/api/v2/type/${activeType}`);
+      const data = await res.json();
+      const typeIds = data.pokemon.map(p => parseInt(p.pokemon.url.split('/').filter(Boolean).pop()));
+      pool = pool.filter(id => typeIds.includes(id));
+    } catch (e) {
+      console.error("Error fetching types", e);
+    }
+  }
+
+  idPool = pool;
+  currentPointer = 0;
+  pokemonList = [];
+  featuredPokemon = null;
+  searchResult = null;
+  
+  await loadNextBatch();
+}
+
+async function loadNextBatch() {
+  if (currentPointer >= idPool.length) {
+    document.getElementById('load-more-container').classList.add('hidden');
+    return;
+  }
+
+  const batchSize = pokemonList.length === 0 ? 25 : 24;
+  const ids = idPool.slice(currentPointer, currentPointer + batchSize);
+  currentPointer += batchSize;
+
+  try {
     const [pData, sData] = await Promise.all([
       Promise.all(ids.map(fetchPokemon)),
       Promise.all(ids.map(fetchSpecies)),
@@ -494,24 +648,35 @@ async function loadPokedex() {
 
     const normalized = pData.map((p, i) => {
       p.evolutionChainData = eData[i];
-      const isShiny = Math.random() < 0.1;
-      return normalizePokemon(p, sData[i], isShiny);
+      return normalizePokemon(p, sData[i], false);
     });
 
-    featuredPokemon = normalized[0];
-    pokemonList = normalized.slice(1);
-    isLoading = false; updateUI();
+    if (pokemonList.length === 0) {
+      featuredPokemon = normalized[0];
+      pokemonList = normalized.slice(1);
+    } else {
+      pokemonList = [...pokemonList, ...normalized];
+    }
+
+    isLoading = false;
+    updateUI(ids.length < batchSize); // Pass if we reached the end
   } catch (e) {
-    document.getElementById('error-container').innerHTML = '⚠️ Error al cargar datos.';
-    isLoading = false; updateUI();
+    document.getElementById('error-container').innerHTML = '⚠️ Error al cargar lote.';
+    isLoading = false;
+    updateUI();
   }
 }
 
 function createMoveCard(m) {
-  const categoryIcons = {
-    physical: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />',
-    special: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />',
-    status: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />'
+  const categoryStyles = {
+    physical: 'bg-red-600/80 text-white',
+    special: 'bg-blue-600/80 text-white',
+    status: 'bg-gray-500/80 text-white'
+  };
+  const categoryLabels = {
+    physical: 'Físico',
+    special: 'Especial',
+    status: 'Estado'
   };
 
   return `
@@ -521,11 +686,9 @@ function createMoveCard(m) {
           <span class="capitalize text-[11px] font-black text-white tracking-tight">${m.name}</span>
           <span class="text-[9px] font-bold text-gray-500 uppercase tracking-tighter">${formatLearnMethod(m.method, m.level)}</span>
         </div>
-        <div class="flex gap-1">
+        <div class="flex gap-1 items-center">
           <span class="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase text-white" style="background-color: ${typeColors[m.type] || '#777'}">${m.type || '???'}</span>
-          <div class="w-4 h-4 text-gray-400">
-            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">${categoryIcons[m.category] || categoryIcons.status}</svg>
-          </div>
+          <span class="px-1.5 py-0.5 rounded text-[7px] font-black uppercase ${categoryStyles[m.category] || categoryStyles.status}">${categoryLabels[m.category] || categoryLabels.status}</span>
         </div>
       </div>
       <p class="text-[9px] text-gray-400 leading-tight italic line-clamp-2">${m.description || 'Sin descripción'}</p>
@@ -571,24 +734,42 @@ async function loadAllPokemonMoves(id) {
   }
 }
 
-function updateUI() {
-  const grid = document.getElementById('pokemon-grid'), featured = document.getElementById('featured-container'), loader = document.getElementById('loader');
-  if (isLoading) { loader.classList.remove('hidden'); grid.innerHTML = ''; featured.innerHTML = ''; return; }
+function updateUI(isEnd = false) {
+  const grid = document.getElementById('pokemon-grid'), 
+        featured = document.getElementById('featured-container'), 
+        loader = document.getElementById('loader'),
+        loadMoreCont = document.getElementById('load-more-container'),
+        resultsCount = document.getElementById('results-count');
+
+  if (isLoading && pokemonList.length === 0) { 
+    loader.classList.remove('hidden'); 
+    grid.innerHTML = ''; 
+    featured.innerHTML = ''; 
+    loadMoreCont.classList.add('hidden');
+    return; 
+  }
+  
   loader.classList.add('hidden');
   
   if (searchResult) {
     featured.innerHTML = '';
+    loadMoreCont.classList.add('hidden');
+    resultsCount.innerHTML = `Resultados: ${searchResult.length}`;
     if (Array.isArray(searchResult)) {
       grid.innerHTML = searchResult.map((p, i) => createPokemonCard(p, i)).join('');
     } else {
       grid.innerHTML = createPokemonCard(searchResult, 0);
     }
-  } else if (currentFilter) {
-    const filtered = pokemonList.filter(p => p.nombre.includes(currentFilter.toLowerCase()) || p.types.some(t => t.includes(currentFilter.toLowerCase())));
-    grid.innerHTML = filtered.map((p, i) => createPokemonCard(p, i)).join('');
   } else {
-    featured.innerHTML = createFeaturedCard(featuredPokemon);
+    resultsCount.innerHTML = `Pool: ${idPool.length} | Mostrando: ${pokemonList.length + (featuredPokemon ? 1 : 0)}`;
+    featured.innerHTML = featuredPokemon ? createFeaturedCard(featuredPokemon) : '';
     grid.innerHTML = pokemonList.map((p, i) => createPokemonCard(p, i)).join('');
+    
+    if (currentPointer < idPool.length && !isEnd) {
+      loadMoreCont.classList.remove('hidden');
+    } else {
+      loadMoreCont.classList.add('hidden');
+    }
   }
 }
 
@@ -629,6 +810,23 @@ async function searchByName(query) {
   }
 }
 
+/* ===== External Interactions ===== */
+function toggleModalShiny() {
+  const imgEl = document.querySelector('#tab-resumen img');
+  const btn = document.getElementById('shiny-btn');
+  const p = window._currentPokemon;
+  if (!p || !imgEl) return;
+
+  p.isShiny = !p.isShiny;
+  imgEl.src = p.isShiny ? p.imgShiny : p.imgNormal;
+  
+  if (p.isShiny) {
+    btn.classList.add('text-yellow-400', 'border-yellow-500/50', 'bg-yellow-500/10');
+  } else {
+    btn.classList.remove('text-yellow-400', 'border-yellow-500/50', 'bg-yellow-500/10');
+  }
+}
+
 async function openModalById(id) {
   const allPool = [featuredPokemon, ...pokemonList];
   if (Array.isArray(searchResult)) allPool.push(...searchResult);
@@ -656,6 +854,17 @@ async function openModalById(id) {
     }
   }
   if (!p) return;
+  window._currentPokemon = p;
+  
+  // Respetar estado shiny de la lista si existe
+  const original = pokemonList.find(x => x.id == id) || featuredPokemon;
+  if (original && original.isShinyInitial) {
+    p.isShiny = true;
+    p.img = p.imgShiny;
+  } else {
+    p.isShiny = false;
+    p.img = p.imgNormal;
+  }
 
   if (!p.encounters) p.encounters = await fetchLocationEncounters(p.id);
 
@@ -696,11 +905,16 @@ async function openModalById(id) {
           </div>
           <h2 class="text-3xl font-black uppercase italic tracking-tighter mb-1">${p.nombre}</h2>
           <div class="flex gap-2">
-            ${p.types.map(t => `<span class="px-3 py-0.5 rounded-md ${typeGradients[t] || 'bg-gray-500'} text-[10px] font-black uppercase tracking-widest shadow-lg">${t}</span>`).join('')}
+            ${p.types.map(t => `<span class="px-3 py-0.5 rounded-md bg-gradient-to-r ${typeGradients[t] || 'from-gray-500 to-gray-600'} text-[10px] font-black uppercase tracking-widest shadow-lg">${t}</span>`).join('')}
           </div>
         </div>
         <div class="flex flex-col items-end gap-2">
-          ${p.soundUrl ? `<button onclick="const a=new Audio('${p.soundUrl}'); a.volume=0.4; a.play()" class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all text-white/80"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg></button>` : ''}
+          <div class="flex gap-2">
+            ${p.imgShiny ? `<button id="shiny-btn" onclick="toggleModalShiny()" class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-yellow-500/20 hover:border-yellow-500/40 transition-all text-white/80 ${p.isShiny ? 'text-yellow-400 border-yellow-500/50 bg-yellow-500/10' : ''}" title="Ver Versión Shiny">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-6.857 2.286L12 21l-2.286-6.857L3 12l6.857-2.286L12 3z" /></svg>
+            </button>` : ''}
+            ${p.soundUrl ? `<button onclick="const a=new Audio('${p.soundUrl}'); a.volume=0.4; a.play()" class="w-10 h-10 rounded-full bg-white/10 border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all text-white/80"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.536 8.464a5 5 0 010 7.072m2.828-9.9a9 9 0 010 12.728M5.586 15H4a1 1 0 01-1-1v-4a1 1 0 011-1h1.586l4.707-4.707C10.923 3.663 12 4.109 12 5v14c0 .891-1.077 1.337-1.707.707L5.586 15z" /></svg></button>` : ''}
+          </div>
           <span class="px-2 py-0.5 rounded bg-black/40 text-[9px] font-bold text-cyan-400/80 uppercase border border-cyan-500/20">${p.evolutionStage}</span>
         </div>
       </div>
@@ -708,10 +922,10 @@ async function openModalById(id) {
       <!-- Tabs Navigation -->
       <div class="flex border-b border-white/5 bg-black/20 overflow-x-auto no-scrollbar scroll-smooth">
         <button onclick="changeTab('resumen')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-cyan-400 border-b-2 border-cyan-400 shrink-0">Resumen</button>
-        <button onclick="changeTab('combate')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Combate</button>
-        <button onclick="changeTab('evolucion')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Evolución</button>
-        <button onclick="changeTab('ubicacion')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Ubicación</button>
-        <button onclick="changeTab('crianza')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Crianza</button>
+        <button onclick="changeTab('combate')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors shrink-0">Combate</button>
+        <button onclick="changeTab('evolucion')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors shrink-0">Evolución</button>
+        ${p.evolutionStage !== 'Mega' ? `<button onclick="changeTab('ubicacion')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors shrink-0">Ubicación</button>` : ''}
+        <button onclick="changeTab('crianza')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-400 hover:text-white transition-colors shrink-0">Crianza</button>
       </div>
 
       <!-- Body Scrollable -->
@@ -742,6 +956,13 @@ async function openModalById(id) {
                 <div class="bg-black/20 p-3 rounded-xl border border-white/5">
                   <div class="text-gray-500 text-[9px] uppercase font-bold mb-1">Captura</div>
                   <div class="font-black text-sm text-yellow-500">${p.captureRate}</div>
+                </div>
+                <div class="bg-black/20 p-3 rounded-xl border border-white/5 col-span-2">
+                  <div class="text-yellow-500 text-[9px] uppercase font-black mb-1 tracking-widest flex items-center gap-1.5">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                    Debut Oficial
+                  </div>
+                  <div class="font-black text-xs text-white/90 italic">${p.debut}</div>
                 </div>
               </div>
             </div>
@@ -804,6 +1025,18 @@ async function openModalById(id) {
             </div>
           </div>
 
+          <div class="bg-black/30 rounded-2xl p-4 border border-white/5">
+            <h4 class="text-xs font-black uppercase text-cyan-400 mb-3 tracking-widest">Objetos Comunes</h4>
+            <div class="flex flex-wrap gap-2">
+              ${p.heldItems.length > 0 ? p.heldItems.map(i => `
+                <div class="flex items-center gap-2 bg-white/5 px-3 py-1.5 rounded-xl border border-white/5 group hover:bg-white/10 transition-all">
+                  <img src="${i.img}" class="w-6 h-6 object-contain drop-shadow-md group-hover:scale-110 transition-transform" onerror="this.style.display='none'">
+                  <span class="text-[10px] font-bold text-gray-300 capitalize">${i.name}</span>
+                </div>
+              `).join('') : '<div class="text-[10px] text-gray-600 italic px-2">Este Pokémon no suele llevar objetos en estado salvaje.</div>'}
+            </div>
+          </div>
+
           ${p.moves.length > 0 ? `
           <div class="bg-black/40 rounded-2xl p-4 border border-white/5">
             <div class="flex justify-between items-center mb-4">
@@ -841,6 +1074,28 @@ async function openModalById(id) {
             </div>
           </div>` : ''}
 
+          ${MEGA_DATA[p.nombre] ? `
+          <div class="bg-gradient-to-br from-indigo-900/40 to-purple-900/40 rounded-xl p-5 border border-indigo-500/30 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-20 h-20 bg-indigo-500/10 blur-2xl rounded-full translate-x-1/2 -translate-y-1/2"></div>
+            <h4 class="text-[10px] uppercase font-black text-indigo-300 mb-3 tracking-widest flex items-center gap-2">
+              <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10A1 1 0 0111.3 1.046z" clip-rule="evenodd" /></svg>
+              Potencial Mega-Evolución
+            </h4>
+            <div class="space-y-2">
+              <div class="flex items-center gap-4">
+                ${MEGA_DATA[p.nombre].itemKey ? `
+                <div class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center border border-white/10 shrink-0">
+                  <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/${MEGA_DATA[p.nombre].itemKey}.png" class="w-8 h-8 object-contain drop-shadow-lg" onerror="this.parentElement.style.display='none'">
+                </div>` : ''}
+                <p class="text-xs font-bold leading-relaxed text-indigo-100">
+                  ${p.evolutionStage === 'Mega' 
+                    ? `<span class="capitalize">${p.nombre.split('-')[0]}</span> alcanza esta forma usando la <span class="text-indigo-400 font-black tracking-tight underline decoration-indigo-500/50 underline-offset-4">${MEGA_DATA[p.nombre].method}</span>.`
+                    : `Se ha confirmado que este Pokémon podrá megaevolucionar en <span class="text-indigo-400 font-black">${MEGA_DATA[p.nombre].futureMega}</span> usando la <span class="text-indigo-400 font-black">${MEGA_DATA[p.nombre].megaMethod}</span>.`}
+                </p>
+              </div>
+            </div>
+          </div>` : ''}
+
           ${p.evolutionFamily.length > 1 ? `
           <div class="bg-black/20 rounded-xl p-4 border border-white/5 relative">
             <h4 class="text-xs font-bold uppercase text-cyan-300 mb-4 tracking-widest text-center">Cadena Evolutiva</h4>
@@ -865,8 +1120,8 @@ async function openModalById(id) {
             <div class="grid grid-cols-1 gap-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
               ${p.encounters.length > 0 ? p.encounters.map(e => `
                 <div class="bg-white/5 p-3 rounded-xl border border-white/5 flex justify-between items-center text-[10px] font-bold">
-                  <span class="capitalize text-gray-300">${localizeLocation(e.location_area.name)}</span>
-                  <span class="text-emerald-500/80 uppercase">Zona</span>
+                  <span class="capitalize text-gray-300">${e.location_area.name.replace(/-/g, ' ')}</span>
+                  <span class="text-emerald-500/80 uppercase">Área</span>
                 </div>
               `).join('') : '<div class="text-gray-500 text-xs italic text-center py-10">Ubicación desconocida o no disponible vía API.</div>'}
             </div>
@@ -944,6 +1199,18 @@ window.addEventListener('DOMContentLoaded', () => {
   loadPokedex();
   const searchInput = document.getElementById('search-input');
   const clearBtn = document.getElementById('clear-search');
+  const regionFilter = document.getElementById('region-filter');
+  const typeFilter = document.getElementById('type-filter');
+
+  regionFilter.addEventListener('change', (e) => {
+    activeRegion = e.target.value;
+    applyFilters();
+  });
+
+  typeFilter.addEventListener('change', (e) => {
+    activeType = e.target.value;
+    applyFilters();
+  });
 
   searchInput.addEventListener('input', (e) => {
     const q = e.target.value;
