@@ -139,6 +139,52 @@ const regionColors = {
   unknown: 'bg-black/40 text-gray-400 border-gray-500/30'
 };
 
+function formatLearnMethod(method, level) {
+  if (method === 'level-up') return `Niv. ${level}`;
+  if (method === 'machine') return 'MT/MO';
+  if (method === 'egg') return 'Huevo';
+  if (method === 'tutor') return 'Tutor';
+  return method.replace(/-/g, ' ');
+}
+
+function localizeLocation(name) {
+  if (!name) return 'Ubicación desconocida';
+  let n = name.toLowerCase();
+  const map = {
+    'route': 'Ruta',
+    'cave': 'Cueva',
+    'mountain': 'Montaña',
+    'forest': 'Bosque',
+    'island': 'Isla',
+    'city': 'Ciudad',
+    'point': 'Punta',
+    'lake': 'Lago',
+    'mount': 'Monte',
+    'tower': 'Torre',
+    'area': 'Zona',
+    'sea': 'Mar',
+    'beach': 'Playa',
+    'path': 'Camino',
+    'kanto': 'Kanto',
+    'johto': 'Johto',
+    'hoenn': 'Hoenn',
+    'sinnoh': 'Sinnoh',
+    'unova': 'Teselia',
+    'kalos': 'Kalos',
+    'alola': 'Alola',
+    'galar': 'Galar',
+    'hisui': 'Hisui',
+    'paldea': 'Paldea'
+  };
+  
+  Object.keys(map).forEach(key => {
+    const regex = new RegExp(`\\b${key}\\b`, 'gi');
+    n = n.replace(regex, map[key]);
+  });
+  
+  return n.replace(/-/g, ' ').split(' ').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+}
+
 function normalizePokemon(p, speciesData, isShiny = false) {
   const nombre = p.name;
   const id = p.id;
@@ -150,7 +196,7 @@ function normalizePokemon(p, speciesData, isShiny = false) {
   if (!img) img = p.sprites?.other?.['official-artwork']?.front_default || p.sprites?.front_default || '';
 
   const soundUrl = p.cries?.latest || '';
-  const abilities = p.abilities?.map(a => ({ name: a.ability.name, isHidden: a.is_hidden })) || [];
+  const abilities = p.abilities?.map(a => ({ name: a.ability.name, isHidden: a.is_hidden, url: a.ability.url })) || [];
   const heldItems = p.held_items?.slice(0, 3).map(i => i.item.name.replace('-', ' ')) || [];
 
   let description = '', isLegendary = false, isMythical = false;
@@ -196,7 +242,20 @@ function normalizePokemon(p, speciesData, isShiny = false) {
   const height = (p.height / 10).toFixed(1) + ' m', weight = (p.weight / 10).toFixed(1) + ' kg';
   const region = getRegion(id, nombre);
 
-  const moves = p.moves?.map(m => m.move.name.replace('-', ' ')) || [];
+  const moves = p.moves?.map(m => {
+    const detail = m.version_group_details[0] || {};
+    return {
+      name: m.move.name.replace(/-/g, ' '),
+      url: m.move.url,
+      method: detail.move_learn_method?.name || 'unknown',
+      level: detail.level_learned_at || 0
+    };
+  }).sort((a, b) => {
+    if (a.method === b.method) return a.level - b.level;
+    if (a.method === 'level-up') return -1;
+    if (b.method === 'level-up') return 1;
+    return 0;
+  }) || [];
 
   let stats = { hp: 0, atk: 0, def: 0, spd: 0, spatk: 0, spdef: 0 };
   if (p.stats) {
@@ -448,6 +507,70 @@ async function loadPokedex() {
   }
 }
 
+function createMoveCard(m) {
+  const categoryIcons = {
+    physical: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />',
+    special: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />',
+    status: '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />'
+  };
+
+  return `
+    <div class="bg-black/30 p-3 rounded-xl border border-white/5 flex flex-col gap-2 hover:bg-black/50 transition-colors">
+      <div class="flex items-start justify-between">
+        <div class="flex flex-col">
+          <span class="capitalize text-[11px] font-black text-white tracking-tight">${m.name}</span>
+          <span class="text-[9px] font-bold text-gray-500 uppercase tracking-tighter">${formatLearnMethod(m.method, m.level)}</span>
+        </div>
+        <div class="flex gap-1">
+          <span class="px-1.5 py-0.5 rounded text-[8px] font-bold uppercase text-white" style="background-color: ${typeColors[m.type] || '#777'}">${m.type || '???'}</span>
+          <div class="w-4 h-4 text-gray-400">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">${categoryIcons[m.category] || categoryIcons.status}</svg>
+          </div>
+        </div>
+      </div>
+      <p class="text-[9px] text-gray-400 leading-tight italic line-clamp-2">${m.description || 'Sin descripción'}</p>
+    </div>
+  `;
+}
+
+async function loadAllPokemonMoves(id) {
+  const allPool = [featuredPokemon, ...pokemonList];
+  if (Array.isArray(searchResult)) allPool.push(...searchResult);
+  else if (searchResult) allPool.push(searchResult);
+  const p = allPool.find(x => x && x.id == id);
+  if (!p) return;
+
+  const btn = document.getElementById('load-more-moves');
+  if (btn) btn.innerHTML = '<span class="animate-pulse">INCUBANDO DATOS...</span>';
+
+  try {
+    const pending = p.moves.filter(m => !m.description);
+    // Fetch in chunks of 20 to avoid rate limiting or browser strain
+    for (let i = 0; i < pending.length; i += 20) {
+      const chunk = pending.slice(i, i + 20);
+      const details = await Promise.all(chunk.map(m => fetchMoveDetails(m.url)));
+      chunk.forEach((m, idx) => {
+        const d = details[idx];
+        if (d) {
+          m.type = d.type.name;
+          m.category = d.damage_class.name;
+          const entry = d.flavor_text_entries?.find(e => e.language.name === 'es') || 
+                        d.flavor_text_entries?.find(e => e.language.name === 'en');
+          m.description = entry ? entry.flavor_text.replace(/\s+/g, ' ').trim() : 'Sin descripción.';
+        }
+      });
+    }
+
+    const container = document.getElementById('moves-grid-container');
+    if (container) {
+      container.innerHTML = p.moves.map(m => createMoveCard(m)).join('');
+    }
+    if (btn) btn.remove();
+  } catch (e) {
+    if (btn) btn.innerHTML = '⚠️ ERROR AL CARGAR';
+  }
+}
+
 function updateUI() {
   const grid = document.getElementById('pokemon-grid'), featured = document.getElementById('featured-container'), loader = document.getElementById('loader');
   if (isLoading) { loader.classList.remove('hidden'); grid.innerHTML = ''; featured.innerHTML = ''; return; }
@@ -536,6 +659,30 @@ async function openModalById(id) {
 
   if (!p.encounters) p.encounters = await fetchLocationEncounters(p.id);
 
+  if (p.abilities && p.abilities.length > 0 && !p.abilities[0].description) {
+    const details = await Promise.all(p.abilities.map(a => fetchAbilityDetails(a.url)));
+    p.abilities.forEach((a, i) => {
+      const entry = details[i]?.flavor_text_entries?.find(e => e.language.name === 'es') || 
+                    details[i]?.flavor_text_entries?.find(e => e.language.name === 'en');
+      a.description = entry ? entry.flavor_text.replace(/\s+/g, ' ').trim() : 'Sin descripción disponible.';
+    });
+  }
+
+  if (p.moves && p.moves.length > 0 && !p.moves[0].description) {
+    const toFetch = p.moves.slice(0, 12);
+    const details = await Promise.all(toFetch.map(m => fetchMoveDetails(m.url)));
+    toFetch.forEach((m, i) => {
+      const d = details[i];
+      if (d) {
+        m.type = d.type.name;
+        m.category = d.damage_class.name;
+        const entry = d.flavor_text_entries?.find(e => e.language.name === 'es') || 
+                      d.flavor_text_entries?.find(e => e.language.name === 'en');
+        m.description = entry ? entry.flavor_text.replace(/\s+/g, ' ').trim() : 'Sin descripción.';
+      }
+    });
+  }
+
   const modal = document.getElementById('pokemon-modal'), content = document.getElementById('modal-body'), borderColor = typeColors[p.types[0]] || '#999';
   
   content.innerHTML = `
@@ -563,7 +710,7 @@ async function openModalById(id) {
         <button onclick="changeTab('resumen')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-cyan-400 border-b-2 border-cyan-400 shrink-0">Resumen</button>
         <button onclick="changeTab('combate')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Combate</button>
         <button onclick="changeTab('evolucion')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Evolución</button>
-        <button onclick="changeTab('mundo')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Mundo</button>
+        <button onclick="changeTab('ubicacion')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Ubicación</button>
         <button onclick="changeTab('crianza')" class="tab-btn px-6 py-3 text-[10px] font-black uppercase tracking-widest text-gray-500 hover:text-white transition-colors shrink-0">Crianza</button>
       </div>
 
@@ -604,7 +751,7 @@ async function openModalById(id) {
           <div class="bg-black/40 rounded-2xl p-5 border border-white/10">
             <h3 class="text-xs font-black uppercase tracking-widest text-white/40 mb-4">Estadísticas Base</h3>
             <div class="space-y-3">
-              ${Object.entries({HP:p.hp, ATQ:p.atk, DEF:p.def, SPD:p.spd, SATK:p.spatk, SDEF:p.spdef}).map(([lab, val]) => `
+              ${Object.entries({HP:p.hp, ATK:p.atk, DEF:p.def, SATK:p.spatk, SDEF:p.spdef, SPD:p.spd}).map(([lab, val]) => `
                 <div class="flex items-center gap-4">
                   <span class="w-10 text-[9px] font-black text-gray-400 uppercase tracking-tighter">${lab}</span>
                   <div class="flex-1 h-3 bg-black/50 rounded-full overflow-hidden border border-white/5">
@@ -647,8 +794,11 @@ async function openModalById(id) {
             <div class="space-y-3">
               ${p.abilities.map(a => `
                 <div class="p-3 bg-white/5 rounded-xl border border-white/5">
-                  <span class="capitalize text-sm font-black">${a.name.replace(/-/g, ' ')}</span>
-                  ${a.isHidden ? '<span class="text-[8px] bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded font-black uppercase ml-2">Oculta</span>' : ''}
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="capitalize text-sm font-black text-cyan-300">${a.name.replace(/-/g, ' ')}</span>
+                    ${a.isHidden ? '<span class="text-[8px] bg-red-500/20 text-red-300 px-1.5 py-0.5 rounded font-black uppercase">Oculta</span>' : ''}
+                  </div>
+                  <p class="text-[10px] text-gray-400 leading-relaxed italic">${a.description || 'Consultando datos...'}</p>
                 </div>
               `).join('')}
             </div>
@@ -660,13 +810,15 @@ async function openModalById(id) {
               <h4 class="text-xs font-black uppercase text-yellow-500 tracking-widest">Movimientos</h4>
               <span class="text-[9px] bg-white/10 px-2 py-0.5 rounded-full font-black text-gray-400 uppercase">Totales: ${p.moves.length}</span>
             </div>
-            <div class="grid grid-cols-2 gap-2 max-h-96 overflow-y-auto custom-scrollbar pr-2">
-              ${p.moves.map(m => `
-                <div class="capitalize text-[10px] bg-white/5 p-2 rounded-lg border border-white/5 text-gray-300 font-bold flex items-center justify-between">
-                  ${m}
-                </div>
-              `).join('')}
+            <div id="moves-grid-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
+              ${p.moves.slice(0, 12).map(m => createMoveCard(m)).join('')}
+              ${p.moves.length > 12 && (!p.moves[12].description) ? `` : p.moves.slice(12).map(m => createMoveCard(m)).join('')}
             </div>
+            ${p.moves.length > 12 && (!p.moves[12].description) ? `
+              <button id="load-more-moves" onclick="loadAllPokemonMoves(${p.id})" class="w-full py-3 text-[10px] font-black uppercase tracking-widest text-cyan-400 bg-cyan-400/10 border border-cyan-400/30 rounded-xl hover:bg-cyan-400/20 transition-all active:scale-95">
+                CARGAR MÁS MOVIMIENTOS (+${p.moves.length - 12})
+              </button>
+            ` : ''}
           </div>` : ''}
         </div>
 
@@ -706,15 +858,15 @@ async function openModalById(id) {
           </div>` : ''}
         </div>
 
-        <!-- Tab: Mundo -->
-        <div id="tab-mundo" class="tab-content hidden space-y-6">
+        <!-- Tab: Ubicación -->
+        <div id="tab-ubicacion" class="tab-content hidden space-y-6">
           <div class="space-y-4">
-            <h4 class="text-xs font-black uppercase text-emerald-400 tracking-widest text-center">Ubicaciones Registradas</h4>
+            <h4 class="text-xs font-black uppercase text-emerald-400 tracking-widest text-center">Hábitats Registrados</h4>
             <div class="grid grid-cols-1 gap-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
               ${p.encounters.length > 0 ? p.encounters.map(e => `
                 <div class="bg-white/5 p-3 rounded-xl border border-white/5 flex justify-between items-center text-[10px] font-bold">
-                  <span class="capitalize text-gray-300">${e.location_area.name.replace(/-/g, ' ')}</span>
-                  <span class="text-emerald-500/80 uppercase">Área</span>
+                  <span class="capitalize text-gray-300">${localizeLocation(e.location_area.name)}</span>
+                  <span class="text-emerald-500/80 uppercase">Zona</span>
                 </div>
               `).join('') : '<div class="text-gray-500 text-xs italic text-center py-10">Ubicación desconocida o no disponible vía API.</div>'}
             </div>
